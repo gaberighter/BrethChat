@@ -1,36 +1,67 @@
 body {
-    background-color: #000000;
-    color: #ffffff;
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 12px;
-    margin: 0px;
-    padding: 0px;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 12px;
+  margin: 0px;
+  padding: 0px;
+}
+
+h1 {
+  text-align: center;
+  border: 5px solid #ffffff;
+  color: #ffffff;
+  font-size: 30px;
+  margin: 0px;
+  padding: 0px;
+}
+
+#instructions {
+  width: 25%;
+  height: 5%;
+  text-align: center;
+  border: 2px;
+  border-style: dashed;
+  border-color: #ffffff;
+  color: #bbbbbb;
+  font-size: 20px;
+  margin: 10px;
+  margin-left: 37.5%;
+  padding: 0px;
+}
+
+#error {
+  text-align: left;
+  color: #ff0000;
+  font-size: 10px;
+  margin: 0px;
+  padding: 0px;
 }
 
 #messageBox {
-    color: #ffffff;
-    background-color: #ffffff;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    overflow-y: auto;
-    max-height: 500px;
-  }
+  color: #ffffff;
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  overflow-y: auto;
+  max-height: 500px;
+}
 
 .user-message {
-    text-align: right;
-    background-color: rgb(50, 50, 209);
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    margin-left: 500px;
-  }
-  
-  .other-message {
-    text-align: left;
-    background-color: #3d3d3d;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    margin-right: 500px;
-  }
+  text-align: right;
+  background-color: rgb(50, 50, 209);
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-left: 500px;
+}
+
+.other-message {
+  text-align: left;
+  background-color: #3d3d3d;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 500px;
+}
