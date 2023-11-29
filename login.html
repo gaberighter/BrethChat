@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrethChat</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+    <h1>Login</h1>
+    <p>username: </p>
+    <input type="text" id="username" name="username" value="">
+    <p>password: </p>
+    <input type="text" id="password" name="password" value="">
+    <button type="button" name="button" onclick="sendLogin()">Login</button>
+    <script>
+        function sendLogin() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Check if the username or password is blank
+        if (!username.trim()) {
+            // If the username is blank, display an error message and return
+            document.getElementById('error').textContent = 'Username cannot be blank';
+            return;
+        }
+
+        if (!password.trim()) {
+            // If the password is blank, display an error message and return
+            document.getElementById('error').textContent = 'Password cannot be blank';
+            return;
+        }
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        })
+            .then(response => response.json())
+            .then(data => {
+            if (data.status === 'success') {
+                if (data.redirect) {
+                // Store the username in localStorage
+                localStorage.setItem('username', username);
+
+                // If the server responded with a redirect, navigate to that page
+                window.location.href = data.redirect;
+                } else {
+                // Otherwise, do something else, like showing a success message
+                console.log('Login successful');
+                }
+            } else {
+                // Handle error
+                console.log('Error:', data.message);
+                // Display the error message
+                document.getElementById('error').textContent = data.message;
+            }
+            })
+        }
+    </script>
+    </p>
+    <p id="error"></p>
+    </body>
+    </html>

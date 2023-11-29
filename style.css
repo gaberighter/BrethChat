@@ -1,0 +1,36 @@
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 12px;
+    margin: 0px;
+    padding: 0px;
+}
+
+#messageBox {
+    color: #ffffff;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    max-height: 500px;
+  }
+
+.user-message {
+    text-align: right;
+    background-color: rgb(50, 50, 209);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-left: 500px;
+  }
+  
+  .other-message {
+    text-align: left;
+    background-color: #3d3d3d;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-right: 500px;
+  }

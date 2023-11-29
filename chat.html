@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrethChat</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+    <h1>Chat</h1>
+    <div id="messageBox"></div>
+    <div id="inputBox">message:
+        <input type="text" id="message" name="message" value="">
+        <button type="button" name="button" onclick="sendMessage()">Send</button>
+    </div>
+    <script>
+        function sendMessage() {
+            const message = document.getElementById('message').value;
+            const username = localStorage.getItem('username');
+
+            if (!message.trim()) {
+                console.log('Message cannot be empty');
+                return;
+            }
+
+            fetch('/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, message }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log('Message sent successfully');
+                    getMessages();
+                    document.getElementById('message').value = ''; // Set the input field value to empty
+                } else {
+                    console.error('Error:', data);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function getMessages() {
+            const username = localStorage.getItem('username');
+
+            fetch('/messages')
+                .then(response => response.json())
+                .then(data => {
+                const messageBox = document.getElementById('messageBox');
+                messageBox.innerHTML = '';
+                data.forEach(msg => {
+                    if (msg) {
+                    const p = document.createElement('p');
+                    // Add a class to the paragraph element based on the username
+                    p.className = msg.username === username ? 'user-message' : 'other-message';
+                    p.textContent = `${msg.username}: ${msg.message}`;
+                    messageBox.appendChild(p);
+                    }
+                    messageBox.scrollTop = messageBox.scrollHeight;
+                });
+                })
+                .catch((error) => {
+                console.error('Error:', error);
+                });
+        }
+        
+        // Add event listener to input field
+        const inputField = document.getElementById('message');
+        inputField.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        window.onload = getMessages;
+    </script>
+</body>
+</html>
