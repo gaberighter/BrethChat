@@ -4,15 +4,18 @@
     <title>BrethChat</title>
     <link rel="icon" type="image/png" href="/logo.png">
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
 <body>
     <h1>Login to BrethChat</h1>
     <div id="instructions">If you do not have an account, make a new one here</div>
-    <p>username: </p>
+    <p id="username_box">username:
     <input type="text" id="username" name="username" value="">
-    <p>password: </p>
+    </p>
+    <p id="password_box">password:
     <input type="text" id="password" name="password" value="">
-    <button type="button" name="button" onclick="sendLogin()">Login</button>
+    </p>
+    <button type="button" id="login_button" name="button" onclick="sendLogin()">Login</button>
     <script>
         function sendLogin() {
         const username = document.getElementById('username').value;

@@ -4,6 +4,7 @@
     <title>BrethChat</title>
     <link rel="icon" type="image/png" href="/logo.png">
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
 <body>
     <h1>Chat</h1>
@@ -13,6 +14,9 @@
         <button type="button" name="button" onclick="sendMessage()">Send</button>
     </div>
     <script>
+        // Then call getMessages every 5 seconds
+        setInterval(getMessages, 100);
+
         function sendMessage() {
             const message = document.getElementById('message').value;
             const username = localStorage.getItem('username');
@@ -33,8 +37,9 @@
             .then(data => {
                 if (data.status === 'success') {
                     console.log('Message sent successfully');
-                    getMessages();
-                    document.getElementById('message').value = ''; // Set the input field value to empty
+                    messageBox.scrollTop = messageBox.scrollHeight;
+                    document.getElementById('message').value = '';
+                    setTimeout(getMessages, 100);
                 } else {
                     console.error('Error:', data);
                 }
@@ -48,24 +53,30 @@
             const username = localStorage.getItem('username');
 
             fetch('/messages')
-                .then(response => response.json())
-                .then(data => {
-                const messageBox = document.getElementById('messageBox');
-                messageBox.innerHTML = '';
-                data.forEach(msg => {
-                    if (msg) {
-                    const p = document.createElement('p');
-                    // Add a class to the paragraph element based on the username
-                    p.className = msg.username === username ? 'user-message' : 'other-message';
-                    p.textContent = `${msg.username}: ${msg.message}`;
-                    messageBox.appendChild(p);
-                    }
-                    messageBox.scrollTop = messageBox.scrollHeight;
-                });
-                })
-                .catch((error) => {
-                console.error('Error:', error);
-                });
+            .then(response => response.json())
+            .then(data => {
+            const messageBox = document.getElementById('messageBox');
+            const scrollPosition = messageBox.scrollTop + messageBox.clientHeight;
+            const scrollThreshold = messageBox.scrollHeight - 5;
+            const shouldScroll = scrollPosition >= scrollThreshold;
+            messageBox.innerHTML = '';
+            data.forEach(msg => {
+                if (msg) {
+                const p = document.createElement('p');
+                p.className = msg.username === username ? 'user-message' : 'other-message';
+                p.textContent = `${msg.username}: ${msg.message}`;
+                messageBox.appendChild(p);
+                }
+            });
+
+            // Only scroll to the bottom if the chat was already scrolled to the bottom before updating
+            if (shouldScroll) {
+                messageBox.scrollTop = messageBox.scrollHeight;
+            }
+            })
+            .catch((error) => {
+            console.error('Error:', error);
+            });
         }
         
         // Add event listener to input field
@@ -77,7 +88,10 @@
             }
         });
         
-        window.onload = getMessages;
+        window.onload = function() {
+            getMessages();
+            messageBox.scrollTop = messageBox.scrollHeight;
+        }
     </script>
 </body>
 </html>
