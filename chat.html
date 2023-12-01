@@ -17,6 +17,13 @@
         // Then call getMessages every 5 seconds
         setInterval(getMessages, 100);
 
+        // Check if the browser supports notifications
+    if ('Notification' in window) {
+        // Request permission to show notifications
+        Notification.requestPermission().then(function(permission) {
+        });
+    }
+
         function sendMessage() {
             const message = document.getElementById('message').value;
             const username = localStorage.getItem('username');
@@ -68,6 +75,10 @@
                 messageBox.appendChild(p);
                 }
             });
+
+            if (newMessages.length > 0 && Notification.permission === 'granted') {
+                new Notification('You have new messages');
+            }   
 
             // Only scroll to the bottom if the chat was already scrolled to the bottom before updating
             if (shouldScroll) {
